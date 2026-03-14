@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block title %}Login — CloudQuiz{% endblock %}
+{% block content %}
+<div style="min-height:90vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+<div style="width:100%;max-width:420px;">
+    <div style="margin-bottom:2rem;">
+        <a href="/" style="font-family:var(--mono);font-size:0.8rem;color:var(--muted);text-decoration:none;">← back</a>
+        <h1 style="font-size:2rem;font-weight:800;margin-top:1rem;">Welcome back</h1>
+        <p class="text-muted mt-1">Login to access your quiz dashboard</p>
+    </div>
+
+    <div class="card">
+        <form method="POST">
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" name="username" required placeholder="your_username" autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" required placeholder="••••••••" autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width:100%;justify-content:center;margin-top:0.5rem;">
+                Login →
+            </button>
+        </form>
+        <p style="text-align:center;margin-top:1.25rem;font-size:0.85rem;color:var(--muted);">
+            No account? <a href="/register" style="color:var(--accent);text-decoration:none;">Register here</a>
+        </p>
+    </div>
+
+    <p style="text-align:center;margin-top:1.5rem;font-family:var(--mono);font-size:0.75rem;color:var(--muted);">
+        Default admin: <span style="color:var(--accent);">admin</span> / <span style="color:var(--accent);">admin123</span>
+    </p>
+</div>
+</div>
+{% endblock %}

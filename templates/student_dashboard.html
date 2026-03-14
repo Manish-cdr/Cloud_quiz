@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — CloudQuiz{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="section-header flex items-center justify-between">
+        <div>
+            <h1>Hello, {{ session.username }} 👋</h1>
+            <p class="text-muted mt-1">Ready to test your cloud knowledge?</p>
+        </div>
+        <a href="{{ url_for('start_quiz') }}" class="btn btn-primary btn-lg">
+            ▶ Start New Quiz
+        </a>
+    </div>
+
+    <!-- Hero quiz card -->
+    <div style="background:linear-gradient(135deg, rgba(0,212,255,0.1), rgba(124,58,237,0.1));border:1px solid var(--border);border-radius:16px;padding:2.5rem;margin-bottom:2rem;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;">
+        <div>
+            <div style="font-family:var(--mono);font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:0.75rem;">Cloud Computing Quiz</div>
+            <h2 style="font-size:1.5rem;font-weight:800;margin-bottom:0.5rem;">12 Questions · Multiple Choice</h2>
+            <p class="text-muted">Topics: IaaS, PaaS, SaaS, AWS, Azure, GCP, Networking, Storage</p>
+        </div>
+        <div style="display:flex;gap:1.5rem;flex-shrink:0;">
+            <div style="text-align:center;">
+                <div style="font-size:2rem;font-weight:800;color:var(--accent);">12</div>
+                <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);">QUESTIONS</div>
+            </div>
+            <div style="text-align:center;">
+                <div style="font-size:2rem;font-weight:800;color:#a78bfa;">∞</div>
+                <div style="font-family:var(--mono);font-size:0.7rem;color:var(--muted);">ATTEMPTS</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent attempts -->
+    <div class="card">
+        <div class="flex items-center justify-between mb-4">
+            <h2 style="font-size:1.1rem;font-weight:700;">Recent Attempts</h2>
+            <span style="font-family:var(--mono);font-size:0.75rem;color:var(--muted);">Last 5 quizzes</span>
+        </div>
+
+        {% if attempts %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Score</th>
+                    <th>Percentage</th>
+                    <th>Grade</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for a in attempts %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ a.score }}</td>
+                    <td>{{ a.total }}</td>
+                    <td>
+                        {% set pct = (a.score / a.total * 100)|int %}
+                        {{ pct }}%
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="text-mono" style="color:var(--muted);">#{{ i }}</td>
+                    <td>
+                        <span style="font-weight:700;color:{% if pct >= 70 %}var(--accent3){% elif pct >= 50 %}var(--warn){% else %}var(--danger){% endif %};">
+                            {{ a.score }}/{{ a.total }}
+                        </span>
+                    </td>
+                    <td>
+                        <div style="display:flex;align-items:center;gap:0.75rem;">
+                            <div style="flex:1;max-width:120px;height:6px;background:var(--surface);border-radius:3px;overflow:hidden;">
+                                <div style="width:{{ pct }}%;height:100%;background:{% if pct >= 70 %}var(--accent3){% elif pct >= 50 %}var(--warn){% else %}var(--danger){% endif %};border-radius:3px;"></div>
+                            </div>
+                            <span class="text-mono" style="font-size:0.85rem;">{{ pct }}%</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span class="badge {% if pct >= 70 %}badge-student{% else %}badge-admin{% endif %}">
+                            {% if pct >= 90 %}A+{% elif pct >= 80 %}A{% elif pct >= 70 %}B{% elif pct >= 60 %}C{% elif pct >= 50 %}D{% else %}F{% endif %}
+                        </span>
+                    </td>
+                    <td class="text-mono" style="color:var(--muted);font-size:0.82rem;">{{ a.taken_at.strftime('%b %d, %Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div style="text-align:center;padding:3rem;color:var(--muted);">
+            <div style="font-size:3rem;margin-bottom:1rem;">📋</div>
+            <p style="font-family:var(--mono);font-size:0.85rem;">No quizzes taken yet.</p>
+            <a href="{{ url_for('start_quiz') }}" class="btn btn-primary" style="margin-top:1rem;">Take your first quiz</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

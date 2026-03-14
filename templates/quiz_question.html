@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block title %}Question {{ current }} — CloudQuiz{% endblock %}
+{% block content %}
+<div style="min-height:90vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
+<div style="width:100%;max-width:680px;">
+
+    <!-- Progress bar -->
+    <div style="margin-bottom:2rem;">
+        <div class="flex items-center justify-between mb-2">
+            <span style="font-family:var(--mono);font-size:0.8rem;color:var(--muted);">Question {{ current }} of {{ total }}</span>
+            <span style="font-family:var(--mono);font-size:0.8rem;color:var(--accent);">{{ ((current/total)*100)|int }}% complete</span>
+        </div>
+        <div style="height:4px;background:var(--surface);border-radius:2px;overflow:hidden;">
+            <div style="width:{{ (current * 100 / total)|int }}%;height:100%;background:linear-gradient(90deg,var(--accent2),var(--accent));border-radius:2px;transition:width 0.4s;"></div>        </div>
+    </div>
+
+    <!-- Question card -->
+    <div class="card" style="margin-bottom:1.5rem;">
+        <div style="font-family:var(--mono);font-size:0.72rem;color:var(--accent);text-transform:uppercase;letter-spacing:0.1em;margin-bottom:1rem;">Q{{ current }}</div>
+        <p style="font-size:1.2rem;font-weight:600;line-height:1.6;color:var(--text);">{{ question.question_text }}</p>
+    </div>
+
+    <!-- Options -->
+    <form method="POST" action="{{ url_for('quiz_question') }}">
+        <input type="hidden" name="question_id" value="{{ question.id }}">
+        <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1.5rem;">
+            {% for opt, label in [('A', question.option_a), ('B', question.option_b), ('C', question.option_c), ('D', question.option_d)] %}
+            <label style="cursor:pointer;">
+                <input type="radio" name="answer" value="{{ opt }}" required style="display:none;" id="opt_{{ opt }}">
+                <div class="option-card" onclick="selectOption(this, '{{ opt }}')" style="background:var(--card);border:2px solid var(--border);border-radius:10px;padding:1rem 1.25rem;display:flex;align-items:center;gap:1rem;transition:all 0.15s;">
+                    <span style="font-family:var(--mono);font-size:0.85rem;font-weight:700;color:var(--muted);width:24px;flex-shrink:0;">{{ opt }}</span>
+                    <span style="font-size:0.95rem;">{{ label }}</span>
+                </div>
+            </label>
+            {% endfor %}
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-lg" style="width:100%;justify-content:center;" id="submit-btn" disabled>
+            {% if current == total %}Submit Quiz ✓{% else %}Next Question →{% endif %}
+        </button>
+    </form>
+</div>
+</div>
+
+<script>
+function selectOption(el, opt) {
+    // Reset all
+    document.querySelectorAll('.option-card').forEach(c => {
+        c.style.borderColor = 'var(--border)';
+        c.style.background = 'var(--card)';
+        c.querySelector('span').style.color = '';
+    });
+    // Highlight selected
+    el.style.borderColor = 'var(--accent)';
+    el.style.background = 'rgba(0,212,255,0.07)';
+    // Check radio
+    document.getElementById('opt_' + opt).checked = true;
+    // Enable submit
+    document.getElementById('submit-btn').disabled = false;
+    document.getElementById('submit-btn').style.opacity = '1';
+}
+document.getElementById('submit-btn').style.opacity = '0.4';
+</script>
+{% endblock %}
