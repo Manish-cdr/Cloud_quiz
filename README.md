@@ -35,33 +35,34 @@ A responsive web-based quiz platform with **Student** and **Admin** roles. The a
 
 ---
 
-📂 Project Structure
+## 📂 Project Structure
 
-```
+```text
 Cloud-Quiz/
 │
-├── index.html
-├── login.html
-├── signup.html
-├── dashboard.html
-├── admin.html
+├── app.py                    # Main Flask application
+├── README.md
+├── .gitignore
 │
-├── css/
-│   └── styles.css
+├── static/
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── main.js
 │
-├── js/
-│   ├── login.js
-│   ├── signup.js
-│   ├── quiz.js
-│   ├── dashboard.js
-│   └── admin.js
-│
-└── README.md
+├── templates/
+│   ├── base.html
+│   ├── index.html
+│   ├── login.html
+│   ├── register.html
+│   ├── student_dashboard.html
+│   ├── admin_dashboard.html
+│   ├── add_question.html
+│   ├── quiz_question.html
+│   └── quiz_result.html
+|──requirement.txt
+|──schema.sql
 ```
-
-> *The structure may vary depending on your implementation.*
-
----
 
 ## 🚀 How It Works
 
