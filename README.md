@@ -132,7 +132,7 @@ This project helped me understand:
 
 **Manish Sharma**
 
-GitHub: https://github.com/your-username
+GitHub: https://github.com/Manish-cdr
 
 ## ☁️ Deployment
 
@@ -149,7 +149,7 @@ This project was successfully deployed on **Microsoft Azure** during development
 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/cloud-quiz.git
+git clone https://github.com/Manish-cdr/cloud-quiz.git
 ```
 
 2. Open the project folder.
